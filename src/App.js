@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import requests from './utils/requests';
+import axios from 'axios';
 
-function App() {
+import Header from './components/Header/Header';
+import Preview from './components/Preview/Preview';
+
+export default function App() {
+
+const [movie,setMovie] = React.useState([]);
+
+React.useEffect(()=>{
+  async function fetchData(){
+     const request = await axios.get('https://api.themoviedb.org/3'+requests.fetchNetflixOriginals);
+     setMovie(request.data.results[Math.floor(Math.random() * request.data.results.length - 1)]
+     )
+     return request;
+  }
+  fetchData()
+},[])
+// console.log(movie)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='my-0 text-[#fff] bg-[grey]'>
+     <Header/>
+     <Preview movie={movie}/>
     </div>
   );
 }
-
-export default App;
