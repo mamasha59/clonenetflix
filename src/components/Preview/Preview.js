@@ -5,12 +5,12 @@ import { RiAddFill } from 'react-icons/ri';
 
 export default function Preview({movie}) {
   
-  function cut(string,n){
-   return string?.length > n ? string.subtring(0, n - 1) + "...": string;
-  }
+//   function cut(string,n){
+//    return string?.length > n ? string.subtring(0, n - 1) + "...": string;
+//   }
 
   return (
-    <section className='h-[56vw] flex justify-start pt-[25%] px-12 flex-col bg-center bg-cover' 
+    <section className='h-[56vw] flex pt-[25%] px-12 flex-col bg-center bg-cover mb-6' 
     style={{backgroundImage:`url("https://image.tmdb.org/t/p/original/${movie?.backdrop_path}")`}}>
         <div className='flex flex-col mb-6'>
                <h1 className='text-8xl mb-5'>{movie?.title || movie?.name || movie?.original_name}</h1>
