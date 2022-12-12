@@ -14,7 +14,7 @@ const [movie,setMovie] = React.useState([]);
 React.useEffect(()=>{
   async function fetchData(){
      const request = await axios.get(requests.fetchNetflixOriginals);
-     setMovie(request.data.results[Math.floor(Math.random() * request.data.results.length - 1)]
+     setMovie(request.data.results[Math.floor(Math.random() * request.data.results.length)]
      )
      return request;
   }
@@ -23,13 +23,12 @@ React.useEffect(()=>{
 // console.log(movie)
 
   return (
-    <div className='my-0 mx-auto pb-8 text-[#fff] bg-[#000]'>
+    <div className='my-0 mx-auto pb-8 text-[#fff] bg-default'>
     <Header/>
     <Preview movie={movie}/>
     <List requestUrl={requests.fetchTrend} title={"Trends"}/>
-    {/* <List requestUrl={requests.fetchTrend} title={"Horor"}/>
+    <List requestUrl={requests.fetchTrend} title={"Horor"}/>
     <List requestUrl={requests.fetchTrend} title={"Top rated"}/>
-    <List requestUrl={requests.fetchTrend} title={"Trends"}/> */}
     </div>
   );
 }

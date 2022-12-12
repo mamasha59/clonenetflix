@@ -1,11 +1,12 @@
 import React from 'react'
 
-export default function ItemMovie({img}) {
+export default function ItemMovie({movie,index,title}) {
+  console.log(title)
   return (
-    <section className='max-h-28'>
-
-               <img src={`https://image.tmdb.org/t/p/original/${img}`} alt="" />
-
-    </section>
+    <>
+    {title === "Trends" && <p className='text-[140px] mr-[-2px]'>{index + 1}</p>}
+    
+    <img key={movie.index} className='w-[auto] h-[200px] mr-2 rounded-md' src={`https://image.tmdb.org/t/p/original/${movie?.poster_path}`} alt="" />
+    </>
   )
 }

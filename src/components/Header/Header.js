@@ -2,6 +2,7 @@ import React from 'react'
 
 import { AiOutlineSearch,AiOutlineUser } from 'react-icons/ai';
 import { IoIosNotificationsOutline } from 'react-icons/io';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
   const [show,setShow] = React.useState(false);
@@ -20,7 +21,7 @@ export default function Header() {
   },[])
   
   return (
-    <nav className={`${show ? 'bg-[#141414]' : 'bg-transparent'} flex justify-between items-center px-12 fixed top-0 right-0 left-0 ease-in duration-500 bg-gradient z-10`}>
+    <nav className={`${show ? 'bg-default' : 'bg-transparent'} flex justify-between items-center px-12 fixed top-0 right-0 left-0 ease-in duration-500 bg-gradient z-10`}>
       <div className='flex items-center'>
           <div className='mr-9 cursor-pointer max-h-[62px] flex'>
             <img className='max-w-[140px]'src="https://pngimg.com/uploads/netflix/netflix_PNG32.png" alt="logo Netflix" />
@@ -38,7 +39,7 @@ export default function Header() {
           <li className='ml-6 cursor-pointer'><AiOutlineSearch className='text-2xl'/></li>
           <li className='ml-6 cursor-pointer'>Kids</li>
           <li className='ml-6 cursor-pointer'><IoIosNotificationsOutline className='text-2xl'/></li>
-          <li className='ml-6 cursor-pointer'><AiOutlineUser className='text-2xl'/></li>
+          <li className='ml-6 cursor-pointer'><Link to={"/"}><AiOutlineUser className='text-2xl'/></Link></li>
         </ul>
     </nav>
   )
