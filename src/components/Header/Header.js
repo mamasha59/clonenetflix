@@ -45,7 +45,7 @@ export default function Header() {
           <li className='ml-6 cursor-pointer'>Kids</li>
           <li className='ml-6 cursor-pointer'><IoIosNotificationsOutline className='text-2xl'/></li>
           <li onMouseEnter={()=>{setPopup(true)}} onMouseLeave={()=>{setPopup(false)}} className='ml-6 cursor-pointer flex group items-center justify-center'>
-            <Link to={"/"}><AiOutlineUser className='text-2xl'/></Link>
+            <Link to={"/profile"}><AiOutlineUser className='text-2xl'/></Link>
             <IoMdArrowDropdown className='group-hover:rotate-180 transition-all'/>
           </li>
         </ul>
@@ -57,7 +57,7 @@ export default function Header() {
             <li className='flex items-center text-base cursor-pointer py-2'><CgUserlane className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Аккаунт</span></li>
             <li className='flex items-center text-base cursor-pointer py-2'><BiSupport className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Центр поддержки</span></li>
           </ul>
-          <button className='py-3 text-center mx-0 my-auto w-full border-t-2 border-[#fff] group'><span className='group-hover:border-b hover:border-[#fff]'>Выйти из Netflix</span> </button>
+          <Link to={"/signup"}><button className='py-3 text-center mx-0 my-auto w-full border-t-2 border-[#fff] group'><span className='group-hover:border-b hover:border-[#fff]'>Выйти из Netflix</span> </button></Link> 
         </div>
     </nav>
   )

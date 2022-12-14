@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import User from './components/User/User';
 import ErrorScreen from './components/ErrorScreen/ErrorScreen';
+import SignUp from './components/SignUp/SignUp';
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
     path: "/movie",
     element: <App/>,
   },
+  {
+    path:"/signup",
+    element:<SignUp/>
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
