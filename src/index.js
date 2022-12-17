@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import User from './components/User/User';
 import ErrorScreen from './components/ErrorScreen/ErrorScreen';
-import SignUp from './components/SignUp/SignUp';
+import FormSign from './components/FormSign/FormSign';
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,11 @@ const router = createBrowserRouter([
   },
   {
     path:"/signup",
-    element:<SignUp/>
+    element:<FormSign/>
+  },
+  {
+    path:"/signin",
+    element:<FormSign/>
   }
 ]);
 
@@ -30,6 +34,5 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <RouterProvider router={router} />
-    {/* <App /> */}
   </React.StrictMode>
 );

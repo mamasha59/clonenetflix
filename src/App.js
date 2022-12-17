@@ -11,7 +11,7 @@ export default function App() {
 
 const [movie,setMovie] = React.useState([]);
 
-React.useEffect(()=>{
+React.useEffect(()=>{ // rendering random background images from movie api
   async function fetchData(){
      const request = await axios.get(requests.fetchNetflixOriginals);
      setMovie(request.data.results[Math.floor(Math.random() * request.data.results.length)]
@@ -20,7 +20,6 @@ React.useEffect(()=>{
   }
   fetchData()
 },[])
-// console.log(movie)
 
   return (
     <div className='my-0 mx-auto pb-8 text-[#fff] bg-default'>

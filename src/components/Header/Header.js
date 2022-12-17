@@ -9,8 +9,8 @@ import { BiUserPin,BiSupport } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 
 export default function Header() {
-  const [show,setShow] = React.useState(false);
-  const [popup,setPopup] = React.useState(false);
+  const [show,setShow] = React.useState(false); // hook to change background of navigation block
+  const [popup,setPopup] = React.useState(false); // hook to shov popup via hover
 
   const changeVis = () =>{
     if(window.scrollY > 0){
