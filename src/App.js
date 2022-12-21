@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import axios from 'axios';
-import React, { useState } from 'react';
+import React from 'react';
 
 import FormSign from "./components/FormSign/FormSign";
 import Movies from "./components/movies/Movies";
@@ -10,8 +10,8 @@ import { reqApiUrl } from "./utils/fetch";
 import ErrorScreen from "./components/ErrorScreen/ErrorScreen";
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [messageError, setMessageError] = useState('');
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [messageError, setMessageError] = React.useState('');
 
   const redirect = useNavigate(); // navigation on the webpage
 
@@ -21,7 +21,7 @@ export default function App() {
         setLoggedIn(true);
         <Navigate replace={true} to='/movies'/>
        redirect('/movie')
-        console.log(user);
+        // console.log(user);
       })
       .catch((error) => {
         setLoggedIn(false);
