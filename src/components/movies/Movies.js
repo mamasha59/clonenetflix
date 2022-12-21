@@ -7,7 +7,7 @@ import List from '../List/List';
 
 import instance from '../../utils/fetch';
 
-export default function Movies() {
+export default function Movies({handleSignOut}) {
 
 const [movie,setMovie] = React.useState([]);
 
@@ -23,10 +23,10 @@ React.useEffect(()=>{ // rendering random background images from movie api
 
   return (
     <div className='my-0 mx-auto pb-8 text-[#fff] bg-default'>
-    <Header/>
+    <Header handleSignOut={handleSignOut}/>
     <Preview movie={movie}/>
     <List requestUrl={requests.fetchTrend} title={"Trends"}/>
-    <List requestUrl={requests.fetchTrend} title={"Horor"}/>
+    <List requestUrl={requests.fetchTrend} title={"Horror"}/>
     <List requestUrl={requests.fetchTrend} title={"Top rated"}/>
     </div>
   );

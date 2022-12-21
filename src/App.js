@@ -1,4 +1,4 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import axios from 'axios';
 import React, { useState } from 'react';
 
@@ -7,14 +7,35 @@ import Movies from "./components/movies/Movies";
 import User from "./components/User/User";
 import Protected from "./components/ProtectedRoute/ProtectedRoute";
 import { reqApiUrl } from "./utils/fetch";
+import ErrorScreen from "./components/ErrorScreen/ErrorScreen";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const redirect = useNavigate(); // hook to redirect when user  created
   const [messageError, setMessageError] = useState('');
+
+  const redirect = useNavigate(); // navigation on the webpage
+
+  const checkToken = React.useCallback(() => { //  to load data if there is a jwt token in cookies
+     axios.get(reqApiUrl+"/me",{ withCredentials: true })
+      .then((user) => {
+        setLoggedIn(true);
+        <Navigate replace={true} to='/movies'/>
+       redirect('/movie')
+        console.log(user);
+      })
+      .catch((error) => {
+        setLoggedIn(false);
+        console.log(error)
+      });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
+  React.useEffect(()=>{ // immediately start function while page is loaded
+    checkToken()
+  },[checkToken])
   
   async function handleSubmitSignUp({email,password}){ // function to make new user
-    await axios.post(reqApiUrl+"/signup",{email,password})
+    await axios.post(reqApiUrl+"/signup",{email,password},{ withCredentials: true })
     .then((res) => {
       if (res.status === 201 || res.status === 200) {
         setMessageError("Account created!")
@@ -30,15 +51,29 @@ export default function App() {
       })
   }
   async function handleSubmitSignIn({email,password}){// log in function
-      axios.post(reqApiUrl+"/signin",{email,password})
+      axios.post(reqApiUrl+"/signin",{email,password},{ withCredentials: true })
       .then((res) => {
         if(!res){
           setMessageError("Что то пошло не так")
         }
         setLoggedIn(true)
         redirect("/")
+        console.log(res)
       })
-      .then((res)=>{})
+      .catch((err)=>{
+        if(err.response.status === 401){
+            setMessageError( "Неправильные почта или пароль")
+        }
+      })
+
+  }
+  const handleSignOut = () =>{
+    return axios.get(reqApiUrl+"/signout",{ withCredentials: true })
+    .then(()=>{
+      setLoggedIn(false)
+      localStorage.clear()
+      redirect("/signup")
+    })
   }
   return (
   <Routes>
@@ -48,10 +83,11 @@ export default function App() {
       />
       <Route
         path="/movie"
-        element={<Protected loggedIn={loggedIn}> <Movies/> </Protected>}
+        element={<Protected loggedIn={loggedIn}> <Movies handleSignOut={handleSignOut}/> </Protected>}
       />
       <Route path="/signup" element={<FormSign register={handleSubmitSignUp} messageError={messageError}/>} />
-      <Route path="/signin" element={<FormSign login={handleSubmitSignIn}/>} />
+      <Route path="/signin" element={<FormSign login={handleSubmitSignIn} messageError={messageError}/>} />
+      <Route path="*" element={<ErrorScreen/>}></Route>
   </Routes>
   )
 }

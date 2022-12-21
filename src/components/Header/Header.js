@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 import { AiOutlineSearch,AiOutlineUser } from 'react-icons/ai';
 import { IoIosNotificationsOutline,IoMdArrowDropdown } from 'react-icons/io';
@@ -6,12 +7,10 @@ import { FaPencilAlt } from 'react-icons/fa';
 import { CgUserlane} from 'react-icons/cg';
 import { BiUserPin,BiSupport } from 'react-icons/bi';
 
-import { Link } from 'react-router-dom';
-
-export default function Header() {
+export default function Header({handleSignOut}) {
   const [show,setShow] = React.useState(false); // hook to change background of navigation block
   const [popup,setPopup] = React.useState(false); // hook to shov popup via hover
-
+console.log("hi")
   const changeVis = () =>{
     if(window.scrollY > 0){
       setShow(true)
@@ -20,11 +19,13 @@ export default function Header() {
     }
   }
 
-  React.useEffect(()=>{
+  React.useEffect(()=>{ // to chane backgorund color while scrolling down and up
    window.addEventListener('scroll', changeVis)
    return ()  => window.removeEventListener('scroll',changeVis)
   },[])
-   
+
+
+
   return (
     <nav className={`${show ? 'bg-default' : 'bg-transparent'} flex justify-between items-center px-12 fixed top-0 right-0 left-0 ease-in duration-500 bg-gradient z-10`}>
       <div className='flex items-center'>
@@ -57,7 +58,7 @@ export default function Header() {
             <li className='flex items-center text-base cursor-pointer py-2'><CgUserlane className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Аккаунт</span></li>
             <li className='flex items-center text-base cursor-pointer py-2'><BiSupport className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Центр поддержки</span></li>
           </ul>
-          <Link to={"/signup"}><button className='py-3 text-center mx-0 my-auto w-full border-t-2 border-[#fff] group'><span className='group-hover:border-b hover:border-[#fff]'>Выйти из Netflix</span> </button></Link> 
+          <button onClick={handleSignOut} className='py-3 text-center mx-0 my-auto w-full border-t-2 border-[#fff] group'><span className='group-hover:border-b hover:border-[#fff]'>Выйти из Netflix</span> </button>
         </div>
     </nav>
   )
