@@ -7,8 +7,7 @@
         @apply hover:opacity-70 transition-all cursor-pointer
     }
     .buttonUserScreen {
-        @apply w-[153px] h-[153px] border-dashed border-[grey] border
-        hover:border-solid hover:border-4 hover:border-[#fff]
-        flex items-center justify-center rounded-md
+        @apply
+         border-[#fff] cursor-pointer
     }
   }
