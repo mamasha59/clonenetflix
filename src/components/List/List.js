@@ -8,7 +8,7 @@ export default function List({requestUrl,title}) {
 
   const [movieT, setMovieT] = React.useState([]);
   const ref = React.useRef(null);
-  
+  // console.log(movieT)
   React.useEffect(()=>{
     async function fetchData(){
        const request = await axios.get(requestUrl);

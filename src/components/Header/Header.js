@@ -26,7 +26,7 @@ export default function Header({handleSignOut}) {
    }
   },[])
   
-  console.log("hi")
+  // console.log("hi")
   return (
     <nav className={`${show ? 'bg-default' : 'bg-transparent'} flex justify-between items-center px-12 fixed top-0 right-0 left-0 ease-in duration-500 bg-gradient z-10`}>
       <div className='flex items-center'>

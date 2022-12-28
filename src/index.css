@@ -11,3 +11,7 @@
          border-[#fff] cursor-pointer
     }
   }
+
+#check-box:checked ~ .check1{
+    @apply opacity-[1]
+}

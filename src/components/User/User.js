@@ -1,34 +1,44 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { AiOutlinePlus } from 'react-icons/ai';
 
-export default function User() {
+import { AiOutlinePlus,AiOutlineCheck } from 'react-icons/ai';
+
+import UserProfile from '../UserProfile/UserProfile';
+import { UserData } from '../../context/Context';
+
+export default function User({createProfile}) {
   const [newUserForm, setNewUserForm] = React.useState(false); // state to change form, from - Who's here? to - Create new profile
 
-  const [name, setValue] = React.useState('');
+  const userData = React.useContext(UserData); // contex goes from App.js/logIn -- user data
+ 
+  const [name, setValue] = React.useState({}); // value of Name input
+  const [messageError, setMessageError] = React.useState(""); // to set Error message if input is empty
 
-  const [messageError, setMessageError] = React.useState("");
-
-  const  handleSudmitProfile = (e) =>{ // function to set new profile
+  const handleSudmitProfile = (e) =>{ // function to set new profile
     e.preventDefault();
     if(name.length === 0){
-      setMessageError(true);
+      setMessageError(true); // set error if input is empty
     }
     if(name){
     setNewUserForm(false);
-    setMessageError(false);
+    setMessageError(false);// clear error
+    createProfile(name) // post new profile
+    .then((res)=>
+    // setTest(...userData.profiles,res)
+    console.log(res)
+        )
+    .catch((err)=>console.log(err));
     }
   }
-  
   const handleChange = (e) =>{ // handle input value
-    setValue(e.target.value);
+    setValue(e.target.value) 
   }
   const handleUndo = () =>{ // when push button Cancel it will reset error state
     setMessageError(false);
     setValue("");
     setNewUserForm(false);
   }
-  const hendleNew = () =>{// when push button New it will reset error state
+  const handleNew = () =>{// when push button New it will reset error state
     setNewUserForm(true);
     setValue("");
     setMessageError(false);
@@ -38,21 +48,27 @@ export default function User() {
  
     <div className={`flex items-center flex-col max-w-[614px] w-full ${newUserForm && "hidden"}`}>
       <h2 className='text-6xl text-[#fff]'>Кто здесь?</h2>
+
       <ul className='flex my-7'>
+      
+        {userData.profiles === undefined || 0 ? "Loading..." :
+         <>
+          {userData.profiles.map((user,id)=>
+          <UserProfile key={id} name={user.name}/>
+          )}
+         </>
+        }
 
-        <li className='w-[153px] h-[201px] cursor-pointer rounded-md mr-7 group flex items-center flex-col'>
-            <div className='border-4 border-transparent bg-center bg-cover w-full h-full group-hover:buttonUserScreen' style={{backgroundImage:`url("https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png")`}}></div>
-            <span className='mt-3 group-hover:text-[#fff]'>{name || "user name"}</span>
-        </li>
-
-        <li className='w-[153px] h-[201px] cursor-pointer group rounded-md mr-7 group flex items-center flex-col'> 
-            <div className='border-4 border-transparent bg-center bg-cover w-full h-full group-hover:buttonUserScreen' style={{backgroundImage:`url("https://ih0.redbubble.net/image.618369215.1083/flat,1000x1000,075,f.u2.jpg")`}}></div>
+      <Link to="/movie">
+        <li className='w-[153px] h-[201px] cursor-pointer group mr-7 group flex items-center flex-col'> 
+            <div className='rounded-md border-4 border-transparent bg-center bg-cover w-full h-full group-hover:buttonUserScreen' style={{backgroundImage:`url("https://ih0.redbubble.net/image.618369215.1083/flat,1000x1000,075,f.u2.jpg")`}}></div>
             <span className='mt-3 group-hover:text-[#fff]'>Kids</span>
         </li>
-        <li className='w-[153px] h-[201px] cursor-pointer group rounded-md group flex items-center flex-col' onClick={hendleNew}>
-            <div className='flex justify-center items-center bg-center bg-cover w-full h-full group-hover:bg-[#d6d3d3] transition-all'><AiOutlinePlus className='text-7xl text-[#000] bg-[#666] group-hover:text-[#fff] rounded-full'/></div>
-            <span className='mt-3 group-hover:text-[#fff]'>Новый</span>
-        </li>
+      </Link>
+      <li className='w-[153px] h-[201px] cursor-pointer group group flex items-center flex-col' onClick={handleNew}>
+          <div className='rounded-md flex justify-center items-center bg-center bg-cover w-full h-full group-hover:bg-[#d6d3d3] transition-all'><AiOutlinePlus className='text-7xl text-[#000] bg-[#666] group-hover:text-[#fff] rounded-full'/></div>
+          <span className='mt-3 group-hover:text-[#fff]'>Новый</span>
+      </li>
      
       </ul>
       <div className='flex flex-col items-center'>
@@ -77,8 +93,13 @@ export default function User() {
                 />
               {messageError&&name.length <= 0 ? <span className='absolute top-[100%] left-0 text-[#ff0000bf]'>Укажите имя.</span> : ""}
             </div>
-          <label className='text-[#fff] ml-4 flex flex-row-reverse text-lg'>Ребенок?
-            <input className='bg-inherit' type="checkbox" />
+          <label htmlFor='check-box' className='text-[#fff] ml-4 flex flex-row-reverse text-lg relative cursor-pointer'>Ребенок?
+            <input
+              className='appearance-none h-8 w-8 border-2 border-[grey] cursor-pointer mr-1'
+              type="checkbox"
+              id='check-box'
+              />
+            <AiOutlineCheck className='absolute left-1 top-1 text-2xl opacity-0 check1'/>
           </label>
         </div>
         <button className='text-xl font-medium px-8 pt-1 pb-2 mr-5 bg-[#fff] text-[#000] hover:bg-[red] hover:text-[#fff]'>Продолжить</button>
