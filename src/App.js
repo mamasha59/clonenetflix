@@ -3,7 +3,7 @@ import axios from 'axios';
 import React from 'react';
 
 import FormSign from "./components/FormSign/FormSign";
-import Movies from "./components/movies/Movies";
+import Movies from "./components/Movies/Movies";
 import User from "./components/User/User";
 import Protected from "./components/ProtectedRoute/ProtectedRoute";
 import { reqApiUrl } from "./utils/fetch";
@@ -17,7 +17,7 @@ export default function App() {
   const redirect = useNavigate(); // navigation on the webpage
   
   const [profiles, setProfiles] = React.useState([]);
-// console.log(profiles)
+
   const checkToken = React.useCallback(() => { //  to load data if there is a jwt token in cookies
      axios.get(reqApiUrl+"/me",{ withCredentials: true })
       .then((user) => {

@@ -1,16 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { AiOutlinePlus,AiOutlineCheck } from 'react-icons/ai';
-
+import { AddNewIcon,CheckBoxIcon } from '../../icons/icons';
 import UserProfile from '../UserProfile/UserProfile';
-// import { UserData } from '../../context/Context';
 
 export default function User({createProfile,profiles}) {
   const [newUserForm, setNewUserForm] = React.useState(false); // state to change form, from - Who's here? to - Create new profile
 
-  //const userData = React.useContext(UserData); // contex goes from App.js/logIn -- user data
-//  console.log(userData.data)
   const [name, setValue] = React.useState({}); // value of Name input
   const [messageError, setMessageError] = React.useState(null); // to set Error message if input is empty
 
@@ -62,7 +58,7 @@ export default function User({createProfile,profiles}) {
         </li>
       </Link>
       <li className='w-[153px] h-[201px] cursor-pointer group group flex items-center flex-col' onClick={handleNew}>
-          <div className='rounded-md flex justify-center items-center bg-center bg-cover w-full h-full group-hover:bg-[#d6d3d3] transition-all'><AiOutlinePlus className='text-7xl text-[#000] bg-[#666] group-hover:text-[#fff] rounded-full'/></div>
+          <div className='rounded-md flex justify-center items-center bg-center bg-cover w-full h-full group-hover:bg-[#d6d3d3] transition-all'><AddNewIcon styles={'text-7xl text-[#000] bg-[#666] group-hover:text-[#fff] rounded-full'}/></div>
           <span className='mt-3 group-hover:text-[#fff]'>Новый</span>
       </li>
      
@@ -95,7 +91,7 @@ export default function User({createProfile,profiles}) {
               type="checkbox"
               id='check-box'
               />
-            <AiOutlineCheck className='absolute left-1 top-1 text-2xl opacity-0 check1'/>
+            <CheckBoxIcon styles={'absolute left-1 top-1 text-2xl opacity-0 check1'}/>
           </label>
         </div>
         <button className='text-xl font-medium px-8 pt-1 pb-2 mr-5 bg-[#fff] text-[#000] hover:bg-[red] hover:text-[#fff]'>Продолжить</button>

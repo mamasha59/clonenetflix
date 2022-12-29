@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { BsFillPlayFill } from 'react-icons/bs';
-import { RiAddFill } from 'react-icons/ri';
+import { WatchIcon,AboutIcon } from '../../icons/icons';
 
 export default function Preview({movie}) {
   
@@ -13,8 +12,8 @@ export default function Preview({movie}) {
                <h2 className='max-w-[400px] max-h-32'>{movie.overview === undefined ? ""  : (movie.overview.length > 150 ? movie.overview.substring(0,150)+"...": movie.overview)}</h2>
         </div>
         <div className='flex mt-2'>
-            <button className='hover text-xl p-6 pr-8 bg-[#fff] text-[#000] mr-4 py-1 rounded-md flex items-center font-medium'><BsFillPlayFill className='mr-2 text-4xl'/>Смотреть</button>
-            <button className='hover text-xl p-6 pr-8 bg-[#726d6d] text-[#fff] py-1 rounded-md flex items-center font-medium'><RiAddFill className='mr-2 text-4xl'/>Подробнее</button>
+            <button className='hover text-xl p-6 pr-8 bg-[#fff] text-[#000] mr-4 py-1 rounded-md flex items-center font-medium'><WatchIcon styles={'mr-2 text-4xl'}/>Смотреть</button>
+            <button className='hover text-xl p-6 pr-8 bg-[#726d6d] text-[#fff] py-1 rounded-md flex items-center font-medium'><AboutIcon styles={'mr-2 text-4xl'}/>Подробнее</button>
         </div>
         <div className='bg-gradient'></div>
     </section>

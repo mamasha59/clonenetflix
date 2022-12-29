@@ -1,11 +1,9 @@
 import React from 'react';
-
-import { AiOutlineSearch,AiOutlineUser } from 'react-icons/ai';
-import { IoIosNotificationsOutline,IoMdArrowDropdown } from 'react-icons/io';
-import { FaPencilAlt } from 'react-icons/fa';
-import { CgUserlane} from 'react-icons/cg';
-import { BiUserPin,BiSupport } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
+
+import { SearchIcon, UserIcon, ArrowIcon, NoticeIcon, 
+        ChangeProfileIcon, TransferProfileIcon, AccountIcon,
+        SupportIcon } from '../../icons/icons';
 
 export default function  Header({handleSignOut}) {
   const [show,setShow] = React.useState(false); // hook to change background of navigation block
@@ -36,6 +34,7 @@ export default function  Header({handleSignOut}) {
     setPopup(false);
     e.stopPropagation();
   }
+  
   return (
     <nav className={`${show ? 'bg-default' : 'bg-transparent'} flex justify-between items-center px-12 fixed top-0 right-0 left-0 ease-in duration-500 bg-gradient z-10`}>
       <div className='flex items-center'>
@@ -52,21 +51,21 @@ export default function  Header({handleSignOut}) {
           </ul>
       </div>
         <ul className='flex items-center'>
-          <li className='ml-6 cursor-pointer'><AiOutlineSearch className='text-2xl'/></li>
+          <li className='ml-6 cursor-pointer'><SearchIcon styles={'text-2xl'}/></li>
           <li className='ml-6 cursor-pointer'>Kids</li>
-          <li className='ml-6 cursor-pointer'><IoIosNotificationsOutline className='text-2xl'/></li>
+          <li className='ml-6 cursor-pointer'><NoticeIcon styles={'text-2xl'}/></li>
           <li onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className='ml-6 cursor-pointer flex group items-center justify-center'>
-            <AiOutlineUser className='text-2xl'/>
-            <IoMdArrowDropdown className='group-hover:rotate-180 transition-all'/>
+            <UserIcon styles={'text-2xl'}/>
+            <ArrowIcon styles={'group-hover:rotate-180 transition-all'}/>
           </li>
         </ul>
         <div onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className={`${popup ? 'visible' : 'invisible'} absolute right-[3%] top-[100%] bg-default mt-1 justify-between`}>
           <ul className='relative py-6 px-3'>
-            <IoMdArrowDropdown className='absolute top-[-30px] right-[15px] text-3xl rotate-180'/>
-           <Link to="/"><li className='flex items-center text-base cursor-pointer py-2'><FaPencilAlt className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Управление профилями</span></li></Link>
-            <li className='flex items-center text-base cursor-pointer py-2'><BiUserPin className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Перенос профиля</span></li>
-            <li className='flex items-center text-base cursor-pointer py-2'><CgUserlane className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Аккаунт</span></li>
-            <li className='flex items-center text-base cursor-pointer py-2'><BiSupport className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Центр поддержки</span></li>
+            <ArrowIcon styles={'absolute top-[-30px] right-[15px] text-3xl rotate-180'}/>
+           <Link to="/"><li className='flex items-center text-base cursor-pointer py-2'><ChangeProfileIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Управление профилями</span></li></Link>
+            <li className='flex items-center text-base cursor-pointer py-2'><TransferProfileIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Перенос профиля</span></li>
+            <li className='flex items-center text-base cursor-pointer py-2'><AccountIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Аккаунт</span></li>
+            <li className='flex items-center text-base cursor-pointer py-2'><SupportIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Центр поддержки</span></li>
           </ul>
           <button onClick={handleSignOut} className='py-3 text-center mx-0 my-auto w-full border-t-2 border-[#fff] group'><span className='group-hover:border-b hover:border-[#fff]'>Выйти из Netflix</span> </button>
         </div>

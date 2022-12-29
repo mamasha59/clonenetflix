@@ -1,12 +1,13 @@
-import React, { useRef, useState } from 'react'
+import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
-import { IoEyeSharp } from 'react-icons/io5';
+
+import { ShowPasswordIcon } from '../../icons/icons';
 
 export default function FormSign({register, login, messageError}) {
 
-    const email = useRef(null); // input email
-    const password = useRef(null);// input password
-    const [showPas, setShowPass] = useState(false);// state to show password or hide
+    const email = React.useRef(null); // input email
+    const password = React.useRef(null);// input password
+    const [showPas, setShowPass] = React.useState(false);// state to show password or hide
 
     const urlAdress = useLocation(); // hook to determine currently url name
 
@@ -58,7 +59,7 @@ export default function FormSign({register, login, messageError}) {
                         type={showPas ? 'password' : 'text'}
                         placeholder='Password'
                         />
-                   <div onClick={()=>setShowPass(!showPas)} className='absolute top-1 right-1 cursor-pointer'><IoEyeSharp className='text-[red]'/></div> 
+                   <div onClick={()=>setShowPass(!showPas)} className='absolute top-1 right-1 cursor-pointer'><ShowPasswordIcon styles={'text-[red]'}/></div> 
                 </label>
                 <button className='my-6 bg-[red] rounded-md py-2 text-[#fff]'>Sign Up</button>
             </form>)
@@ -81,7 +82,7 @@ export default function FormSign({register, login, messageError}) {
                         className='px-3 py-3 max-w-[320px] w-full bg-[#8080807f] text-[#fff] rounded-md placeholder:text-[#c4b7b7]'
                         type={showPas ? 'password' : 'text'} placeholder='Password'
                      />
-                   <div onClick={()=>setShowPass(!showPas)} className='absolute top-1 right-1 cursor-pointer'><IoEyeSharp className='text-[red]'/></div> 
+                   <div onClick={()=>setShowPass(!showPas)} className='absolute top-1 right-1 cursor-pointer'><ShowPasswordIcon styles={'text-[red]'}/></div> 
                 </label>
                 <button className='my-6 bg-[red] rounded-md py-2 text-[#fff]'>Sign In</button>
             </form>)

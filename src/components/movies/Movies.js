@@ -1,6 +1,6 @@
 import React from 'react';
-import requests from '../../utils/requests';
 
+import requests from '../../utils/requests';
 import Header from '../Header/Header';
 import Preview from '../Preview/Preview';
 import List from '../List/List';
