@@ -4,15 +4,15 @@ import { Link } from 'react-router-dom';
 import { AiOutlinePlus,AiOutlineCheck } from 'react-icons/ai';
 
 import UserProfile from '../UserProfile/UserProfile';
-import { UserData } from '../../context/Context';
+// import { UserData } from '../../context/Context';
 
-export default function User({createProfile}) {
+export default function User({createProfile,profiles}) {
   const [newUserForm, setNewUserForm] = React.useState(false); // state to change form, from - Who's here? to - Create new profile
 
-  const userData = React.useContext(UserData); // contex goes from App.js/logIn -- user data
- 
+  //const userData = React.useContext(UserData); // contex goes from App.js/logIn -- user data
+//  console.log(userData.data)
   const [name, setValue] = React.useState({}); // value of Name input
-  const [messageError, setMessageError] = React.useState(""); // to set Error message if input is empty
+  const [messageError, setMessageError] = React.useState(null); // to set Error message if input is empty
 
   const handleSudmitProfile = (e) =>{ // function to set new profile
     e.preventDefault();
@@ -23,10 +23,6 @@ export default function User({createProfile}) {
     setNewUserForm(false);
     setMessageError(false);// clear error
     createProfile(name) // post new profile
-    .then((res)=>
-    // setTest(...userData.profiles,res)
-    console.log(res)
-        )
     .catch((err)=>console.log(err));
     }
   }
@@ -51,9 +47,9 @@ export default function User({createProfile}) {
 
       <ul className='flex my-7'>
       
-        {userData.profiles === undefined || 0 ? "Loading..." :
+        {profiles === undefined || 0 ? "Loading..." :
          <>
-          {userData.profiles.map((user,id)=>
+          {profiles.map((user,id)=>
           <UserProfile key={id} name={user.name}/>
           )}
          </>

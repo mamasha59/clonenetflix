@@ -13,16 +13,19 @@ import { UserData } from "./context/Context";
 export default function App() {
   const [loggedIn, setLoggedIn] = React.useState(false); // state of auth
   const [messageError, setMessageError] = React.useState('');
-  const [user, setUser] = React.useState({}); // current user's data
+  const [user, setUser] = React.useState({}); // current user's data ???
   const redirect = useNavigate(); // navigation on the webpage
-
+  
+  const [profiles, setProfiles] = React.useState([]);
+// console.log(profiles)
   const checkToken = React.useCallback(() => { //  to load data if there is a jwt token in cookies
      axios.get(reqApiUrl+"/me",{ withCredentials: true })
       .then((user) => {
         setLoggedIn(true);
         <Navigate replace={true} to='/movies'/>
         redirect('/movie')
-        setUser(user.data);
+        setUser(user)
+        setProfiles(user.data.profiles)
       })
       .catch((error) => {
         setLoggedIn(false);
@@ -78,6 +81,9 @@ export default function App() {
 
   const createProfile = async(name) =>{ // post new profile in data base
    await axios.post(reqApiUrl+"/createProfile",{name},{ withCredentials: true })
+   .then((res)=>{
+    setProfiles([...profiles, {name}])
+   })
   }
 
   return (
@@ -85,7 +91,7 @@ export default function App() {
     <Routes>
         <Route
           path="/"
-          element={<Protected loggedIn={loggedIn}><User createProfile={createProfile}/></Protected> }
+          element={<Protected loggedIn={loggedIn}><User createProfile={createProfile} profiles={profiles}/></Protected> }
         />
         <Route
           path="/movie"

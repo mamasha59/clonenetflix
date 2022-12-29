@@ -7,7 +7,7 @@ import { CgUserlane} from 'react-icons/cg';
 import { BiUserPin,BiSupport } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
 
-export default function Header({handleSignOut}) {
+export default function  Header({handleSignOut}) {
   const [show,setShow] = React.useState(false); // hook to change background of navigation block
   const [popup,setPopup] = React.useState(false); // hook to shov popup via hover
 
@@ -25,8 +25,17 @@ export default function Header({handleSignOut}) {
     window.removeEventListener('scroll',changeVis)
    }
   },[])
-  
   // console.log("hi")
+
+  function mouseEnterHandler(e){
+    setPopup(true)
+    e.stopPropagation();
+  }
+
+  function mouseLeaveHandler(e){
+    setPopup(false);
+    e.stopPropagation();
+  }
   return (
     <nav className={`${show ? 'bg-default' : 'bg-transparent'} flex justify-between items-center px-12 fixed top-0 right-0 left-0 ease-in duration-500 bg-gradient z-10`}>
       <div className='flex items-center'>
@@ -46,12 +55,12 @@ export default function Header({handleSignOut}) {
           <li className='ml-6 cursor-pointer'><AiOutlineSearch className='text-2xl'/></li>
           <li className='ml-6 cursor-pointer'>Kids</li>
           <li className='ml-6 cursor-pointer'><IoIosNotificationsOutline className='text-2xl'/></li>
-          <li onMouseEnter={() => setPopup(true)} onMouseLeave={(e) => setPopup(false)} className='ml-6 cursor-pointer flex group items-center justify-center'>
+          <li onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className='ml-6 cursor-pointer flex group items-center justify-center'>
             <AiOutlineUser className='text-2xl'/>
             <IoMdArrowDropdown className='group-hover:rotate-180 transition-all'/>
           </li>
         </ul>
-        <div onMouseEnter={() => setPopup(true)} onMouseLeave={() => setPopup(false)} className={`${popup ? 'visible' : 'invisible'} absolute right-[3%] top-[100%] bg-default mt-1 justify-between`}>
+        <div onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className={`${popup ? 'visible' : 'invisible'} absolute right-[3%] top-[100%] bg-default mt-1 justify-between`}>
           <ul className='relative py-6 px-3'>
             <IoMdArrowDropdown className='absolute top-[-30px] right-[15px] text-3xl rotate-180'/>
            <Link to="/"><li className='flex items-center text-base cursor-pointer py-2'><FaPencilAlt className='mr-2'/><span className='border-b border-transparent hover:border-[#fff]'>Управление профилями</span></li></Link>
