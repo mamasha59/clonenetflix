@@ -25,7 +25,7 @@ export default function List({requestUrl,title}) {
   return (
   <>
     {!movieT ? "preloader " : 
-    (<div className='flex flex-col ml-12 mb-8'>
+    (<div className='flex flex-col ml-12 mb-8 sm:ml-6'>
       <h2 className='text-[22px] font-bold'>{title}</h2>
       <div className='relative'>
         <button onClick={() => moveScroll(-500)} className='absolute top-[40%] left-0 z-10'><SliderButtonIcon styles={'text-5xl text-[red]'}/></button>

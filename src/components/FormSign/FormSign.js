@@ -20,7 +20,7 @@ export default function FormSign({register, login, messageError}) {
         register({email:email.current.value, password:password.current.value})
     }
     function signIn(e){         // log in function
-        e.preventDefault()
+        e.preventDefault();
         login({email:email.current.value, password:password.current.value})
     }
   return (

@@ -23,13 +23,13 @@ export default function App() {
       .then((user) => {
         setLoggedIn(true);
         <Navigate replace={true} to='/movies'/>
-        redirect('/movie')
-        setUser(user)
-        setProfiles(user.data.profiles)
+        redirect('/movie');
+        setUser(user);
+        setProfiles(user.data.profiles);
       })
       .catch((error) => {
         setLoggedIn(false);
-        console.log(error)
+        console.log(error);
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[])
@@ -42,15 +42,15 @@ export default function App() {
     await axios.post(reqApiUrl+"/signup",{email,password},{ withCredentials: true })
     .then((res) => {
       if (res.status === 201 || res.status === 200) {
-        setMessageError("Account created!")
-        redirect("/signin")
+        setMessageError("Account created!");
+        redirect("/signin");
       }
       if (res.status === 400) {
-          console.log("Такой email уже существует")
+          console.log("Такой email уже существует");
       }
       }).catch((err) => {
           if(err.response.status === 409){
-            setMessageError("email уже используется!")
+            setMessageError("email уже используется!");
           }
       })
   }
@@ -61,21 +61,22 @@ export default function App() {
           setMessageError("Что то пошло не так")
         }
         setUser(res.data);
-        setLoggedIn(true)
-        redirect("/")
+        setLoggedIn(true);
+        redirect("/");
       })
       .catch((err)=>{
         if(err.response.status === 401){
-            setMessageError( "Неправильные почта или пароль")
+            setMessageError( "Неправильные почта или пароль");
         }
       })
   }
   const handleSignOut = () =>{
     return axios.get(reqApiUrl+"/signout",{ withCredentials: true })
     .then(()=>{
-      setLoggedIn(false)
-      localStorage.clear()
-      redirect("/signup")
+      setLoggedIn(false);
+      localStorage.clear();
+      redirect("/signup");
+      setProfiles([]);
     })
   }
 
