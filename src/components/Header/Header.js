@@ -47,7 +47,7 @@ export default function Header({handleSignOut, titles}) {
         <li className='ml-6 cursor-pointer'><NoticeIcon styles={'text-2xl'}/></li>
         <li onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className='ml-6 cursor-pointer flex group items-center justify-center'>
           <UserIcon styles={'text-2xl'}/>
-          <ArrowIcon styles={popup && 'rotate-180 transition-all'}/>
+          <ArrowIcon styles={`${popup &&'rotate-180 transition-all'} md:invisible`}/>
         </li>
       </ul>
         <HeaderPopup onEnter={mouseEnterHandler} onLeave={mouseLeaveHandler} popup={popup} exitProfile={handleSignOut}/>
