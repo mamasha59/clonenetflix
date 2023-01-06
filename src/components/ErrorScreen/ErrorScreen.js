@@ -9,7 +9,7 @@ export default function ErrorScreen() {
       <p className="text-[red] mt-11 text-2xl">
         <i>404 страница не найдена!</i>
       </p>
-    <Link to="/signup"><button className="mt-8 border-b-[#fff] border-2 px-3 py-1 hover rounded-md">Go to Sign Up!</button></Link> 
+    <Link to="/"><button className="mt-8 border-b-[#fff] border-2 px-3 py-1 hover rounded-md">Go Back!</button></Link> 
     </div>
   );
 }

@@ -9,8 +9,12 @@ module.exports = {
         default: '#141414',
         defaultOpacity: 'rgba(0,0,0,0.7)',
       },
-      backgroundImage: {
-        'gradient': 'linear-gradient(180deg,rgba(0,0,0,.7) 10%,transparent)',
+   
+      keyframes: {
+        preloader: {
+          '0%, 100%': { opacity: '.8' },
+          '50%': { opacity: '.3' },
+        }
       }
     },
     screens:{

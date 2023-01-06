@@ -1,37 +1,33 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-import { SearchIcon, UserIcon, ArrowIcon, NoticeIcon, 
-        ChangeProfileIcon, TransferProfileIcon, AccountIcon,
-        SupportIcon } from '../../icons/icons';
+import { SearchIcon, UserIcon, ArrowIcon, NoticeIcon} from '../../icons/icons';
+import HeaderPopup from './HeaderPopup/HeaderPopup';
 
-export default function  Header({handleSignOut}) {
+export default function Header({handleSignOut, titles}) {
   const [show,setShow] = React.useState(false); // hook to change background of navigation block
   const [popup,setPopup] = React.useState(false); // hook to shov popup via hover
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const changeVis = () =>{
-    if(window.scrollY > 0){
+    if(window.scrollY > 80&&!show){
       setShow(true);
     }else{
       setShow(false);
     }
-  } 
+  }
 
   React.useEffect(()=>{ // to chane backgorund color while scrolling down and up
    window.addEventListener('scroll', changeVis)
    if(window.scrollY > 62){
     window.removeEventListener('scroll',changeVis)
    }
-  },[])
+  },[changeVis])
 
-  function mouseEnterHandler(e){
+  const mouseEnterHandler = (e) =>{
     setPopup(true);
-    e.stopPropagation();
   }
 
-  function mouseLeaveHandler(e){
+  const mouseLeaveHandler =(e) =>{
     setPopup(false);
-    e.stopPropagation();
   }
 
   return (
@@ -41,33 +37,20 @@ export default function  Header({handleSignOut}) {
             <img className='max-w-[140px] md:max-w-[80px]'src="https://pngimg.com/uploads/netflix/netflix_PNG32.png" alt="logo Netflix" />
           </div>
           <ul className='flex sm:hidden'>
-            <li className='mr-6 text-sm hover lg:text-[10px] md:text-[9px]'>Главная</li>
-            <li className='mr-6 text-sm hover lg:text-[10px] md:text-[9px]'>Сериалы</li>
-            <li className='mr-6 text-sm hover lg:text-[10px] md:text-[9px]'>Фильмы</li>
-            <li className='mr-6 text-sm hover lg:text-[10px] md:text-[9px]'>Новинки и популярное</li>
-            <li className='mr-6 text-sm hover lg:text-[10px] md:text-[9px]'>Мой список</li>
-            <li className='mr-6 text-sm hover lg:text-[10px] md:text-[9px]'>Поиск по языку</li>
+            {titles.map((item,index)=>
+            <li key={index} className='mr-6 text-sm hover lg:text-[10px] md:text-[9px]'>{item.title}</li>)}
           </ul>
       </div>
-        <ul className='flex items-center'>
-          <li className='ml-6 cursor-pointer'><SearchIcon styles={'text-2xl'}/></li>
-          <li className='ml-6 cursor-pointer lg:hidden'>Kids</li>
-          <li className='ml-6 cursor-pointer'><NoticeIcon styles={'text-2xl'}/></li>
-          <li onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className='ml-6 cursor-pointer flex group items-center justify-center'>
-            <UserIcon styles={'text-2xl'}/>
-            <ArrowIcon styles={'group-hover:rotate-180 transition-all'}/>
-          </li>
-        </ul>
-        <div onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className={`${popup ? 'visible' : 'invisible'} absolute right-[3%] top-[100%] bg-default mt-1 justify-between`}>
-          <ul className='relative py-6 px-3'>
-            <ArrowIcon styles={'absolute top-[-30px] right-[15px] text-3xl rotate-180'}/>
-           <Link to="/"><li className='flex items-center text-base cursor-pointer py-2'><ChangeProfileIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Управление профилями</span></li></Link>
-            <li className='flex items-center text-base cursor-pointer py-2'><TransferProfileIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Перенос профиля</span></li>
-            <li className='flex items-center text-base cursor-pointer py-2'><AccountIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Аккаунт</span></li>
-            <li className='flex items-center text-base cursor-pointer py-2'><SupportIcon styles={'mr-2'}/><span className='border-b border-transparent hover:border-[#fff]'>Центр поддержки</span></li>
-          </ul>
-          <button onClick={handleSignOut} className='py-3 text-center mx-0 my-auto w-full border-t-2 border-[#fff] group'><span className='group-hover:border-b hover:border-[#fff]'>Выйти из Netflix</span> </button>
-        </div>
+      <ul className='flex items-center'>
+        <li className='ml-6 cursor-pointer'><SearchIcon styles={'text-2xl'}/></li>
+        <li className='ml-6 cursor-pointer lg:hidden'>Kids</li>
+        <li className='ml-6 cursor-pointer'><NoticeIcon styles={'text-2xl'}/></li>
+        <li onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} className='ml-6 cursor-pointer flex group items-center justify-center'>
+          <UserIcon styles={'text-2xl'}/>
+          <ArrowIcon styles={popup && 'rotate-180 transition-all'}/>
+        </li>
+      </ul>
+        <HeaderPopup onEnter={mouseEnterHandler} onLeave={mouseLeaveHandler} popup={popup} exitProfile={handleSignOut}/>
     </nav>
   )
 }

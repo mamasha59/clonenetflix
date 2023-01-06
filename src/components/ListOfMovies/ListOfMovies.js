@@ -4,7 +4,7 @@ import axios from '../../utils/fetch';
 import ItemMovie from '../ItemMovie/ItemMovie';
 import { SliderButtonIcon } from '../../icons/icons';
 
-export default function List({requestUrl,title}) {
+export default function ListOfMovies({requestUrl,title}) {
 
   const [movieT, setMovieT] = React.useState([]);
   const ref = React.useRef(null);
@@ -24,7 +24,7 @@ export default function List({requestUrl,title}) {
 
   return (
   <>
-    {!movieT ? "preloader " : 
+    {movieT.length === 0 ? "loading..." : 
     (<div className='flex flex-col ml-12 mb-8 sm:ml-6'>
       <h2 className='text-[22px] font-bold'>{title}</h2>
       <div className='relative'>
@@ -35,7 +35,6 @@ export default function List({requestUrl,title}) {
         </div>
         <button onClick={() => moveScroll(+500)} className='absolute top-[40%] right-0 z-10'><SliderButtonIcon styles={'text-5xl rotate-180 text-[red]'}/></button>
       </div>
-
     </div>
     )}
   </>
