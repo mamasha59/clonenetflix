@@ -30,9 +30,5 @@ Hover popup, slider of movies, responsive nav bar menu, lite validation on Name 
 
 
 
-## Roadmap
-
-- Additional browser support
-
-- Add more integrations
+![Видео без названия — сделано в Clipchamp](https://user-images.githubusercontent.com/68348736/211061954-cca014ac-61bf-4e57-99a2-ad5dc3df4e2c.gif)
 
