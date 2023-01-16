@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react';
+import { useGetMoviesTrendsQuery } from '../../redux/movies.api';
 
 import Header from '../Header/Header';
 import Preview from '../Preview/Preview';
@@ -6,7 +7,9 @@ import LoaderMovies from '../../Loaders/LoaderMovies/MovieLoader';
 
 const ListOfMovies = React.lazy(()=> import('../ListOfMovies/ListOfMovies'));
 
-export default function Main({handleSignOut,movie,requests}) {
+export default function Main({handleSignOut,movie}) {
+
+  const {data, error, isLoading} = useGetMoviesTrendsQuery(); // fetch movie - trend
 
 const menu = [
   {title:"Главная"},
@@ -22,9 +25,9 @@ const menu = [
     <Header handleSignOut={handleSignOut} titles={menu}/>
     <Preview movie={movie}/>
     <Suspense fallback={<LoaderMovies/>}>
-      <ListOfMovies requestUrl={requests.fetchTrend} title={"Trends"}/>
-      <ListOfMovies requestUrl={requests.fetchTrend} title={"Horror"}/>
-      <ListOfMovies requestUrl={requests.fetchTrend} title={"Top rated"}/>
+      <ListOfMovies title={"Trends"} data={data} error={error} isLoading={isLoading}/>
+      <ListOfMovies title={"Horror"} data={data} error={error} isLoading={isLoading}/>
+      <ListOfMovies title={"Top rated"} data={data} error={error} isLoading={isLoading}/>
     </Suspense>
 
     </div>

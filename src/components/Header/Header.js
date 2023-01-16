@@ -26,7 +26,7 @@ export default function Header({handleSignOut, titles}) {
     setPopup(true);
   }
 
-  const mouseLeaveHandler =(e) =>{
+  const mouseLeaveHandler = (e) =>{
     setPopup(false);
   }
 

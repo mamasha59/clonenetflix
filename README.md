@@ -17,15 +17,17 @@ Hover popup, slider of movies, responsive nav bar menu, lite validation on Name 
 Есть возможность создавать пользователя.
 Все это работает на Mongoose.  
 
+Общий store на Redux Toolkit.  
+
 Все блоки адаптированы под все устройства.
 Ховер попап, лайт слайдер для фильмов с использование overflow,  
 плавный бекграунд у header блока.
 
-
+TO DO - сдлеать регистрацию и логин ползователя с помощью RTK query
 
 
 ```
- ReactJs / Tailwind / Js / NodeJs / ExpressJs / Mongoose / NoSql / Axios
+ ReactJs / Tailwind / Js / NodeJs / ExpressJs / Mongoose / NoSql / Axios / Redux Toolkit / RTQ query of Redux Toolkit
 ```
 
 

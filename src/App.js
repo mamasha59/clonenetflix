@@ -8,42 +8,43 @@ import Main from "./components/Main/Main";
 import Protected from "./components/ProtectedRoute/ProtectedRoute";
 import { reqApiUrl } from "./utils/fetch";
 import ErrorScreen from "./components/ErrorScreen/ErrorScreen";
-import { UserData } from "./context/Context";
-
-import instance from './utils/fetch';
-import requests from './utils/requests';
 
 import LoaderProfiles from './Loaders/LoaderProfiles/LoaderProfiles'
 import UserFrame from "./components/UserFrame/UserFrame";
+
+import { useDispatch } from 'react-redux';
+import { setUser, removeUser, addProfile } from './redux/userSlice'
+import { useGetMoviesNetflixQuery } from "./redux/movies.api";
 
 const User = React.lazy(()=> import("./components/UserFrame/User/User"));
 
 export default function App() {
   const [loggedIn, setLoggedIn] = React.useState(false); // state of auth
   const [messageError, setMessageError] = React.useState(''); // state of error for SIGNIN and SIGNUP
-  const [user, setUser] = React.useState({}); // current user's data ???
-  
-  const [profiles, setProfiles] = React.useState([]); // set USER'S PROFILES
+
   const [movie,setMovie] = React.useState([]); // set random mobvie background img
 
   const redirect = useNavigate(); // navigation on the webpage
+  const dispatch = useDispatch();
 
-  React.useEffect(()=>{       // rendering random background images from movie api
-    async function fetchData(){
-       const request = await instance.get(requests.fetchNetflixOriginals);
-       setMovie(request.data.results[Math.floor(Math.random() * request.data.results.length)]
-       )
-       return request;
+  const {data, error, isLoading} = useGetMoviesNetflixQuery(); // fetch movie - netflix trend
+
+  React.useEffect(()=>{ // rendering random background images from movie api
+    if(isLoading){
+      console.log("loading..");
+    }else if(error){
+      console.log(error.error);
+    }else{
+      setMovie(data.results[Math.floor(Math.random() * data.results.length)]);
     }
-    fetchData();
-  },[])
+  },[data,error,isLoading]);
 
-  const checkToken = React.useCallback(() => { //  to load data if there is a jwt token in cookies
+  const checkToken = React.useCallback(() => { //  to load data if there is a jwt token in cookies`
      axios.get(reqApiUrl+"/me",{ withCredentials: true })
       .then((user) => {
         setLoggedIn(true);
+        dispatch(setUser({email:user.data.email, id:user.data._id, profiles:user.data.profiles}))
         redirect('/movie');
-        setProfiles(user.data.profiles);
       })
       .catch((error) => {
         setLoggedIn(false);
@@ -55,9 +56,15 @@ export default function App() {
   React.useEffect(()=>{ // immediately start function while page is loaded
     checkToken()
   },[checkToken])
-  
+
+  function validateEmail(string) {
+    var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+    return re.test(String(string).toLowerCase());
+  }
+
   async function handleSubmitSignUp({email,password}){    // function to make new user
-    await axios.post(reqApiUrl+"/signup",{email,password},{ withCredentials: true })
+    if(validateEmail(email)){
+        await axios.post(reqApiUrl+"/signup",{email,password},{ withCredentials: true })
     .then((res) => {
       if (res.status === 201 || res.status === 200) {
         setMessageError("Account created!");
@@ -71,6 +78,10 @@ export default function App() {
             setMessageError("email уже используется!");
           }
       })
+      setMessageError("")
+    }else{
+      setMessageError("email should looks like - name@mail.com")
+    }
   }
 
   async function handleSubmitSignIn({email,password}){    // log in function
@@ -79,8 +90,8 @@ export default function App() {
         if(!res){
           setMessageError("Что то пошло не так")
         }
-        setUser(res.data);
         setLoggedIn(true);
+        dispatch(setUser({email:res.data.data.email, id:res.data.data._id, profiles:res.data.data.profiles}))
         redirect("/");
       })
       .catch((err)=>{
@@ -96,38 +107,36 @@ export default function App() {
       setLoggedIn(false);
       localStorage.clear();
       redirect("/signup");
-      setProfiles([]);
+      dispatch(removeUser())
     })
   }
 
   const createProfile = async(name) =>{     // post new profile in data base
    await axios.post(reqApiUrl+"/createProfile",{name},{ withCredentials: true })
    .then((res)=>{
-    setProfiles([...profiles, {name}])
+    dispatch(addProfile({name}))
    })
   }
 
   return (
-  <UserData.Provider value={user}>
     <Routes>
         <Route
           path="/"
           element={<Protected loggedIn={loggedIn}>
                     <Suspense fallback={<UserFrame><LoaderProfiles/></UserFrame>}>
-                      <User createProfile={createProfile} profiles={profiles}/>
+                      <User createProfile={createProfile}/>
                     </Suspense>
                   </Protected> }
         />
         <Route
           path="/movie"
           element={<Protected loggedIn={loggedIn}>
-                      <Main requests={requests} movie={movie} handleSignOut={handleSignOut}/>
+                      <Main movie={movie} handleSignOut={handleSignOut}/>
                   </Protected>}
         />
         <Route path="/signup" element={<FormSign register={handleSubmitSignUp} messageError={messageError}/>} />
         <Route path="/signin" element={<FormSign login={handleSubmitSignIn} messageError={messageError}/>} />
         <Route path="*" element={<ErrorScreen/>}></Route>
     </Routes>
-  </UserData.Provider>
   )
 }

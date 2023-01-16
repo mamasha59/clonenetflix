@@ -11,10 +11,6 @@ export default function FormSign({register, login, messageError}) {
 
     const urlAdress = useLocation(); // hook to determine currently url name
 
-    // function validateEmail(string) {
-    //     var re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-    //     return re.test(String(string).toLowerCase());
-    // }
     function signUp(e){         // function to make new user
         e.preventDefault();
         register({email:email.current.value, password:password.current.value})
@@ -23,6 +19,7 @@ export default function FormSign({register, login, messageError}) {
         e.preventDefault();
         login({email:email.current.value, password:password.current.value})
     }
+
   return (
     <section className='bg-default h-[100vh] flex flex-col items-center justify-center relative bg-center bg-cover text-[grey] z-0 
     after:bg-defaultOpacity after:block after:absolute after:w-full after:h-full after:top-0 after:left-0 after:z-[1]' 

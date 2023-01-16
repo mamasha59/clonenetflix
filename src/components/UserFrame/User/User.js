@@ -1,4 +1,6 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 
 import { AddNewIcon } from '../../../icons/icons';
@@ -7,7 +9,8 @@ import CreateProfileForm from '../CreateProfileForm/CreateProfileForm';
 import UserFrame from '../UserFrame';
 import UserProfileItem from '../UserProfileItem/UserProfileItem';
 
-export default function User({createProfile,profiles}) {
+export default function User({createProfile}) {
+  const profiles = useSelector(data => data.user.profiles); // currect data from redux
 
   const [newUserForm, setNewUserForm] = React.useState(false); // state to change form, from - Who's here? to - Create new profile
   const [messageError, setMessageError] = React.useState(null); // to set Error message if input is empty
@@ -44,14 +47,14 @@ export default function User({createProfile,profiles}) {
         {profiles === undefined || 0 ? "Loading..." :
          <>
           {profiles.map((user,id)=> 
-          <UserProfileItem redirect={"movie"} key={id} name={user.name}/>
+          <UserProfileItem redirect={"movie"} key={id} name={user.name} id={user._id}/>
           )}
          </>
          }
 
-        <UserProfileItem redirect={"movie"} name={"Kids"} bgImg={"https://ih0.redbubble.net/image.618369215.1083/flat,1000x1000,075,f.u2.jpg"}/>
+        <UserProfileItem id={123123} redirect={"movie"} name={"Kids"} bgImg={"https://ih0.redbubble.net/image.618369215.1083/flat,1000x1000,075,f.u2.jpg"}/>
       
-        {profiles.length !== 4 &&
+        {profiles.length !== 4 && // button add New profile
             (<li className='w-[153px] h-[201px] sm:w-[140px] sm:h-[175px] cursor-pointer group group flex items-center flex-col' onClick={handleNew}>
               <div className='rounded-md flex justify-center items-center bg-center bg-cover w-full h-full group-hover:bg-[#d6d3d3] transition-all'>
                 <AddNewIcon styles={'text-7xl sm:text-6xl text-[#000] bg-[#666] group-hover:text-[#fff] rounded-full'}/>  
@@ -59,11 +62,7 @@ export default function User({createProfile,profiles}) {
               <span className='mt-3 group-hover:text-[#fff]'>Новый</span>
             </li>)}
       </ul>
-
-      <div className='flex flex-col items-center'>
         <Link to="/manage"><button className='border-solid border-[grey] border px-6 py-2 mb-5 text-xl hover:text-[#fff] hover:border-[#fff]'>Управление профилями</button></Link>
-        <Link to="/movie" className="hover:text-[red]">Back</Link>
-      </div>
     </div>
   
     <CreateProfileForm
