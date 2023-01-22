@@ -13,21 +13,19 @@ import LoaderProfiles from './Loaders/LoaderProfiles/LoaderProfiles'
 import UserFrame from "./components/UserFrame/UserFrame";
 
 import { useDispatch } from 'react-redux';
-import { setUser, removeUser, addProfile } from './redux/userSlice'
+import { setUser, removeUser, addProfile } from './redux/slicers/userSlice'
 import { useGetMoviesNetflixQuery } from "./redux/movies.api";
+import { clearMovies, setMovies } from "./redux/slicers/moviesSlicer";
 
 const User = React.lazy(()=> import("./components/UserFrame/User/User"));
 
 export default function App() {
-  const [loggedIn, setLoggedIn] = React.useState(false); // state of auth
   const [messageError, setMessageError] = React.useState(''); // state of error for SIGNIN and SIGNUP
 
-  const [movie,setMovie] = React.useState([]); // set random mobvie background img
-
   const redirect = useNavigate(); // navigation on the webpage
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); // dispatch data to redux
 
-  const {data, error, isLoading} = useGetMoviesNetflixQuery(); // fetch movie - netflix trend
+  const {data, error, isLoading } = useGetMoviesNetflixQuery(); // fetch movie - netflix trend
 
   React.useEffect(()=>{ // rendering random background images from movie api
     if(isLoading){
@@ -35,19 +33,18 @@ export default function App() {
     }else if(error){
       console.log(error.error);
     }else{
-      setMovie(data.results[Math.floor(Math.random() * data.results.length)]);
+      dispatch(setMovies(data.results[Math.floor(Math.random() * data.results.length)]));
     }
-  },[data,error,isLoading]);
+  },[data,error,isLoading,dispatch]);
 
   const checkToken = React.useCallback(() => { //  to load data if there is a jwt token in cookies`
      axios.get(reqApiUrl+"/me",{ withCredentials: true })
       .then((user) => {
-        setLoggedIn(true);
-        dispatch(setUser({email:user.data.email, id:user.data._id, profiles:user.data.profiles}))
+        dispatch(setUser({email:user.data.email, id:user.data._id, profiles:user.data.profiles, isLoggedIn:true}))
         redirect('/movie');
       })
       .catch((error) => {
-        setLoggedIn(false);
+        dispatch(setUser({isLoggedIn:true}))
         console.log(error);
       });
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,8 +87,7 @@ export default function App() {
         if(!res){
           setMessageError("Что то пошло не так")
         }
-        setLoggedIn(true);
-        dispatch(setUser({email:res.data.data.email, id:res.data.data._id, profiles:res.data.data.profiles}))
+        dispatch(setUser({email:res.data.data.email, id:res.data.data._id, profiles:res.data.data.profiles, isLoggedIn:true}))
         redirect("/");
       })
       .catch((err)=>{
@@ -104,10 +100,11 @@ export default function App() {
   const handleSignOut = () =>{ // signOut and delete cookies and localstorage
     return axios.get(reqApiUrl+"/signout",{ withCredentials: true })
     .then(()=>{
-      setLoggedIn(false);
+      dispatch(setUser({isLoggedIn:true}))
       localStorage.clear();
       redirect("/signup");
-      dispatch(removeUser())
+      dispatch(removeUser());
+      dispatch(clearMovies());
     })
   }
 
@@ -122,7 +119,7 @@ export default function App() {
     <Routes>
         <Route
           path="/"
-          element={<Protected loggedIn={loggedIn}>
+          element={<Protected>
                     <Suspense fallback={<UserFrame><LoaderProfiles/></UserFrame>}>
                       <User createProfile={createProfile}/>
                     </Suspense>
@@ -130,8 +127,8 @@ export default function App() {
         />
         <Route
           path="/movie"
-          element={<Protected loggedIn={loggedIn}>
-                      <Main movie={movie} handleSignOut={handleSignOut}/>
+          element={<Protected>
+                      <Main handleSignOut={handleSignOut}/>
                   </Protected>}
         />
         <Route path="/signup" element={<FormSign register={handleSubmitSignUp} messageError={messageError}/>} />

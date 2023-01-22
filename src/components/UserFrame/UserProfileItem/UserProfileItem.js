@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { setCurrentProfile } from '../../../redux/userSlice';
+import { setCurrentProfile } from '../../../redux/slicers/userSlice';
 
 export default function UserProfileItem({name,bgImg,redirect,id}) {
   

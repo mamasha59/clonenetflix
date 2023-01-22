@@ -7,7 +7,7 @@ import LoaderMovies from '../../Loaders/LoaderMovies/MovieLoader';
 
 const ListOfMovies = React.lazy(()=> import('../ListOfMovies/ListOfMovies'));
 
-export default function Main({handleSignOut,movie}) {
+export default function Main({handleSignOut}) {
 
   const {data, error, isLoading} = useGetMoviesTrendsQuery(); // fetch movie - trend
 
@@ -23,7 +23,7 @@ const menu = [
   return(
     <div className='my-0 mx-auto pb-8 text-[#fff] bg-default'>
     <Header handleSignOut={handleSignOut} titles={menu}/>
-    <Preview movie={movie}/>
+    <Preview/>
     <Suspense fallback={<LoaderMovies/>}>
       <ListOfMovies title={"Trends"} data={data} error={error} isLoading={isLoading}/>
       <ListOfMovies title={"Horror"} data={data} error={error} isLoading={isLoading}/>

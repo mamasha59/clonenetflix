@@ -5,6 +5,7 @@ const initialState = {
     email:null,
     profiles:[],
     currentProfile:[],
+    isLoggedIn: false,
 }
 
 export const userClise = createSlice({
@@ -15,6 +16,7 @@ export const userClise = createSlice({
       state.id = action.payload.id;
       state.email = action.payload.email;
       state.profiles = action.payload.profiles;
+      state.isLoggedIn = action.payload.isLoggedIn;
     },
     removeUser: () => initialState,
     

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
 import { Link } from 'react-router-dom';
 
 import { AddNewIcon } from '../../../icons/icons';
@@ -10,7 +9,8 @@ import UserFrame from '../UserFrame';
 import UserProfileItem from '../UserProfileItem/UserProfileItem';
 
 export default function User({createProfile}) {
-  const profiles = useSelector(data => data.user.profiles); // currect data from redux
+  
+  const {profiles} = useSelector(data => data.user); // currect data from redux
 
   const [newUserForm, setNewUserForm] = React.useState(false); // state to change form, from - Who's here? to - Create new profile
   const [messageError, setMessageError] = React.useState(null); // to set Error message if input is empty
